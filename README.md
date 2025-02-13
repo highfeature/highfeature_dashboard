@@ -1,5 +1,5 @@
 # Highfeature Dashboard
-![Preview of Highfeature Dashboard](https://github.com/highfeature/highfeature_dashboard/docs/images/demo.png)
+![Preview of Highfeature Dashboard](https://github.com/highfeature/highfeature_dashboard/blob/main/docs/images/demo.png)
 
 POC (Just for fun) of a dashboard made with Django 5+ (backend part) and HTMX (Frontend part). The application does not have the ambition to replace a Dashy or a Kubernete dashboard, I do it just for fun and to show Django can does it, if needed.
 
