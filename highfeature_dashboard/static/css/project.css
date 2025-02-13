@@ -1,0 +1,45 @@
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+#to-show{display:none;}
+ #to-hover:hover > #to-show{display: block;}
+
+ .tooltip {
+  /* position: relative; */
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  opacity:1;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.card {
+  margin-bottom: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 8rem;
+}
