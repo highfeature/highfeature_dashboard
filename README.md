@@ -5,7 +5,7 @@ POC (Just for fun) of a dashboard made with Django 5+ (backend part) and HTMX (F
 
 NOTE: this POC is WIP, it uses Redis and Celery as quick task manager, it will be containerized to make an easy management.
 The main features for now are:
-- like Dashy, it accept a config in yaml
+- like Dashy or homarr, it accept a config in yaml
 - multiple type of component displayed by groups
 - display working status, and last time see up
 
@@ -15,6 +15,7 @@ The main features for now are:
 License: MIT License
 
 **Special THANKS to all contributors of all open source framework and library used in that POC.**
+**Special THANKS to all contributors of all open source https://github.com/homarr-labs/dashboard-icons used as sub module in that POC.**
 
 ## Settings
 
