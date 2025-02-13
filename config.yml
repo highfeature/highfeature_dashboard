@@ -23,7 +23,8 @@ cards:
   name: rsqq
 - group: aaa
   image: dashboard-icons/png/arch.png
-  name: rsvvtr rrsrievn  ieie
+  name: rsvvtr rrsriev
+  url: http://127.0.0.1
 - group: aaa
   image: dashboard-icons/png/arch.png
   name: test1

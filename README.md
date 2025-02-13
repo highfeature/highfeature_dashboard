@@ -1,4 +1,4 @@
-# Highfeature Dashboard
+# POC - Highfeature Dashboard
 ![Preview of Highfeature Dashboard](https://github.com/highfeature/highfeature_dashboard/blob/main/docs/images/demo.png)
 
 POC (Just for fun) of a dashboard made with Django 5+ (backend part) and HTMX (Frontend part). The application does not have the ambition to replace a Dashy or a Kubernete dashboard, I do it just for fun and to show Django can does it, if needed.
@@ -68,7 +68,7 @@ To run a celery worker:
 ```bash
 cd highfeature_dashboard
 export CELERY_BROKER_URL=
-export USE_DOCKER=yes
+export USE_DOCKER=no
 celery -A config.celery_app worker -l info
 ```
 
@@ -80,6 +80,8 @@ To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-ta
 You can start it as a standalone process:
 ```bash
 cd highfeature_dashboard
+export CELERY_BROKER_URL=
+export USE_DOCKER=no
 celery -A config.celery_app beat -l info
 ```
 
@@ -87,6 +89,7 @@ or you can embed the beat service inside a worker with the `-B` option
 (not recommended for production use):
 ```bash
 cd highfeature_dashboard
+source .envs/.local/.django
 celery -A config.celery_app worker -B -l info
 ```
 Then run or debug the app in Pycharm or other.
