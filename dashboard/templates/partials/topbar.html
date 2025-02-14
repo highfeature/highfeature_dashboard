@@ -3,38 +3,61 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Top navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">{% translate "Home" %}</a>
+          <a class="nav-link active"
+             aria-current="page"
+             href="{% url 'dashboard' %}">{% translate "Home" %}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" role="button" hx-get="{% url 'edit_mode_menu' %}" hx-target="#edit_mode_menu">
-{% if user.is_authenticated and edit_mode %}
-      {% translate "Standard Mode" %}
-{% else %}
-      {% translate "Edit Mode" %}
-{% endif %}
-            </a>
+          <a class="nav-link"
+             role="button"
+             hx-get="{% url 'edit_mode_menu' %}"
+             hx-target="#edit_mode_menu">
+            {% if user.is_authenticated and edit_mode %}
+              {% translate "Standard Mode" %}
+            {% else %}
+              {% translate "Edit Mode" %}
+            {% endif %}
+          </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {% translate "Settings" %}
-          </a>
+          <a class="nav-link dropdown-toggle"
+             href="#"
+             role="button"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">{% translate "Settings" %}</a>
           <ul class="dropdown-menu">
-{% if user.is_authenticated and user.is_superuser %}
-            <li><a class="dropdown-item" href="{% url 'admin:index' %}">{% translate "Admin pages" %}</a></li>
-{% endif %}
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            {% if user.is_authenticated and user.is_superuser %}
+              <li>
+                <a class="dropdown-item" href="{% url 'admin:index' %}">{% translate "Admin pages" %}</a>
+              </li>
+            {% endif %}
+            <li>
+              <a class="dropdown-item" href="#">Action</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">Another action</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </li>
           </ul>
         </li>
         <li class="nav-item">
@@ -42,44 +65,58 @@
         </li>
         {# Display item user menu #}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-{% if user.get_username %}
-            {{ user.get_username }}
-{% else %}
-            {% translate "Login" %}
-{% endif %}
+          <a class="nav-link dropdown-toggle"
+             href="#"
+             role="button"
+             data-bs-toggle="dropdown"
+             aria-expanded="false">
+            {% if user.get_username %}
+              {{ user.get_username }}
+            {% else %}
+              {% translate "Login" %}
+            {% endif %}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="pages-profile.html">Profile</a></li>
-            <li><a class="dropdown-item" href="pages-analytics.html">Analytics</a></li>
+            <li>
+              <a class="dropdown-item" href="pages-profile.html">Profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="pages-analytics.html">Analytics</a>
+            </li>
             <li class="dropdown-divider"></li>
-{% if not user.get_username %}
-            <li><a class="dropdown-item" href="{% url 'account_login' %}">{% translate "Sign In" %}</a></li>
-{% else %}
-            <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a></li>
-{% endif %}
+            {% if not user.get_username %}
+              <li>
+                <a class="dropdown-item" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
+              </li>
+            {% else %}
+              <li>
+                <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+              </li>
+            {% endif %}
           </ul>
         </li>
         <li class="nav-item">
-          <span class="sidebar-link align-middle" hx-get="{% url 'edit_mode_menu' %}" hx-target="#edit_mode_menu">
-{% if user.is_authenticated and edit_mode %}
-            {% translate "Standard Mode" %}
-{% else %}
-            {% translate "Edit Mode" %}
-{% endif %}
+          <span class="sidebar-link align-middle"
+                hx-get="{% url 'edit_mode_menu' %}"
+                hx-target="#edit_mode_menu">
+            {% if user.is_authenticated and edit_mode %}
+              {% translate "Standard Mode" %}
+            {% else %}
+              {% translate "Edit Mode" %}
+            {% endif %}
           </span>
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2"
+               type="search"
+               placeholder="Search"
+               aria-label="Search" />
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>
   </div>
 </nav>
-
-
-
 <!--<nav class="navbar navbar-expand navbar-light navbar-bg">-->
 <!--  <a class="sidebar-toggle js-sidebar-toggle">-->
 <!--    <i class="hamburger align-self-center"></i>-->
@@ -89,7 +126,7 @@
 <!--      {# Display search #}-->
 <!--      <li>-->
 <!--        <form class="d-flex" role="search">-->
-<!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />-->
 <!--          <button class="btn btn-outline-success" type="submit">Search</button>-->
 <!--        </form>-->
 <!--      </li>-->

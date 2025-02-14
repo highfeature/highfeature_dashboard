@@ -84,7 +84,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "highfeature_dashboard.users",
     # Your stuff: custom apps go here
-    'dashboard',
+    "dashboard",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -94,7 +94,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
 # if you got the error: django.db.utils.OperationalError: no such table: django_site_id_seq
 # comment that line, then "./manage.py migrate" then uncomment the line then run "./manage.py migrate"
-#AIS MIGRATION_MODULES = {"sites": "highfeature_dashboard.contrib.sites.migrations"}
+# AIS MIGRATION_MODULES = {"sites": "highfeature_dashboard.contrib.sites.migrations"}
 
 # AUTHENTICATION
 # ------------------------------------------------------------------------------
@@ -265,7 +265,7 @@ if USE_TZ:
     # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-timezone
     CELERY_TIMEZONE = TIME_ZONE
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-broker_url
-CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="")
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-result_backend
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#result-extended
@@ -314,15 +314,13 @@ SOCIALACCOUNT_FORMS = {"signup": "highfeature_dashboard.users.forms.UserSocialSi
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-HF_DASHBOARD_CARDS_FILE=env("HF_DASHBOARD_CARDS_FILE", default="./config.yml")
+HF_DASHBOARD_CARDS_FILE = env("HF_DASHBOARD_CARDS_FILE", default="./config.yml")
 
 
 # CHANNELS
 CHANNEL_LAYERS = {
     # local dev
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
     # docker dev
     # "default": {
     #     "BACKEND": "channels_redis.core.RedisChannelLayer",

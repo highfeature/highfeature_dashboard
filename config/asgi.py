@@ -51,7 +51,6 @@ from . import urls  # noqa isort:skip
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": AllowedHostsOriginValidator(AuthMiddlewareStack(
-            URLRouter(urls.websocket_urlpatterns)))
+        "websocket": AllowedHostsOriginValidator(AuthMiddlewareStack(URLRouter(urls.websocket_urlpatterns))),
     }
 )

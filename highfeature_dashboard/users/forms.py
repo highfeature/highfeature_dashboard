@@ -1,9 +1,9 @@
+import django
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from django.contrib.auth import forms as admin_forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-import django
 
 User = get_user_model()
 
@@ -13,23 +13,28 @@ class UserAdminChangeForm(admin_forms.UserChangeForm):
         model = User
 
 
-if django.get_version()[0] == '5':
+if django.get_version()[0] == "5":
+
     class UserAdminCreationForm(admin_forms.AdminUserCreationForm):
         """
         Form for User Creation in the Admin Area.
         To change user signup, see UserSignupForm and UserSocialSignupForm.
         """
+
         class Meta(admin_forms.UserCreationForm.Meta):
             model = User
             error_messages = {
                 "username": {"unique": _("This username has already been taken.")},
             }
+
 else:
+
     class UserAdminCreationForm(admin_forms.UserCreationForm):
         """
         Form for User Creation in the Admin Area.
         To change user signup, see UserSignupForm and UserSocialSignupForm.
         """
+
         class Meta(admin_forms.UserCreationForm.Meta):
             model = User
             error_messages = {

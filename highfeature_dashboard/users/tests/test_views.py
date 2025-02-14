@@ -12,11 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from highfeature_dashboard.users.forms import UserAdminChangeForm
 from highfeature_dashboard.users.models import User
 from highfeature_dashboard.users.tests.factories import UserFactory
-from highfeature_dashboard.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from highfeature_dashboard.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 

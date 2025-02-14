@@ -1,8 +1,8 @@
-exclude: '^docs/|/migrations/|devcontainer.json'
-default_stages: [commit]
+exclude: '^docs/|^\\.idea/|/migrations/|devcontainer.json|\.sqlite3|\.map|\.min.css.map|\.min.js|\.min.js.map$'
+default_stages: [pre-commit]
 
 default_language_version:
-  python: python3.11
+  python: python3.10
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

@@ -1,23 +1,27 @@
 {% load static i18n %}
+
 <div class="modal-content">
-  <form id="cardeditpopupform" name="cardeditpopupform" hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
+  <form id="cardeditpopupform"
+        name="cardeditpopupform"
+        hx-post="{{ request.path }}"
+        hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'
         class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title">{% translate "Edit Card" %}</h1>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
     </div>
     <div class="modal-body">
       {% load crispy_forms_tags %}
-      {{form| crispy}}
+
+      {{ form| crispy }}
     </div>
     <div class="modal-footer">
       <img src="static/dashboard-icons/png/arch.png" width="50" height="50" />
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-        {% translate "Cancel" %}
-      </button>
-      <button type="submit" class="btn btn-primary">
-        {% translate "Save" %}
-      </button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+      <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
     </div>
   </form>
 </div>

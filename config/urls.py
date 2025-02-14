@@ -8,9 +8,7 @@ from django.views.generic import TemplateView
 
 from config.consumer import NotificationConsumer
 
-websocket_urlpatterns = [
-    path("ws/notifications/", NotificationConsumer.as_asgi())
-]
+websocket_urlpatterns = [path("ws/notifications/", NotificationConsumer.as_asgi())]
 urlpatterns = [
     # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
@@ -20,7 +18,7 @@ urlpatterns = [
     path("users/", include("highfeature_dashboard.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("", include('dashboard.urls')),
+    path("", include("dashboard.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development

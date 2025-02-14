@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static i18n %}
+
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}" data-bs-theme="auto">
   <head>
@@ -8,75 +9,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Dashboard for local lab" />
     <meta name="author" content="Alain Ivars" />
-    <title>{% block title %}highfeature_dashboard{% endblock title %}</title>
+    <title>
+      {% block title %}
+        highfeature_dashboard
+      {% endblock title %}
+    </title>
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
-
-   {% block css %}
-    {# Latest compiled and minified Bootstrap CSS #}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/navbar-static.css' %}">
-<!--    <link rel="stylesheet"-->
+    {% block css %}
+      {# Latest compiled and minified Bootstrap CSS #}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/navbar-static.css' %}" />
+      <!--    <link rel="stylesheet"-- />
 <!--          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"-->
 <!--          integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="-->
 <!--          crossorigin="anonymous"-->
 <!--          referrerpolicy="no-referrer" />-->
-    {# Your stuff: Third-party CSS libraries go here #}
+{# Your stuff: Third-party CSS libraries go here #}
 <!--    <link href="{% static 'css/admin-kit.css' %}" rel="stylesheet" />-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    {# This file stores project-specific CSS #}
-    <link href="{% static 'css/project.css' %}" rel="stylesheet" />
-    {% endblock css %}
-
-    {# javascript #}
-    {# Placed at the top of the document so pages load faster with defer #}
-    {% block javascript %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+{# This file stores project-specific CSS #}
+<link href="{% static 'css/project.css' %}" rel="stylesheet" />
+{% endblock css %}
+{# javascript #}
+{# Placed at the top of the document so pages load faster with defer #}
+{% block javascript %}
 <!--    <script defer-->
-<!--          src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"-->
-<!--          integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="-->
-<!--          crossorigin="anonymous"-->
-<!--          referrerpolicy="no-referrer"></script>-->
-    <script defer src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-
-    {# Your stuff: Third-party javascript libraries go here #}
-    <script defer src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
+      <!--          src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"-->
+      <!--          integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="-->
+      <!--          crossorigin="anonymous"-->
+      <!--          referrerpolicy="no-referrer">
+    </script>-->
+<script defer src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{# Your stuff: Third-party javascript libraries go here #}
+<script defer src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
 <!--    <script defer src="{% static 'js/admin-kit.js' %}"></script>-->
-
-    {# place project specific Javascript in this file #}
-    <script defer src="{% static 'js/project.js' %}"></script>
-    {% endblock javascript %}
-  </head>
-
-  <body id="edit_mode_menu">
-
-    {# place Notifications #}
-    <div id="notifications"></div>
-
-    {# place for Card Edit Popup #}
-    <div id="modal" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
-        <div id="card_edit_popup" class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        </div>
-    </div>
-
-    {% block nav %}
-      {% include 'partials/topbar.html' %}
-    {% endblock nav %}
-
-    {# container #}
-    {% block modal %}
-    <div class="main">
-      <div class="container" id="groups_results">
-        {% include 'partials/messages.html' %}
-
-        {% block content %}
-        {% endblock content %}
-
-        {% include 'partials/footer.html' %}
-      </div>
-    </div>
-    {% endblock modal %}
-
-    {# For debug tool bar #}
-
-  </body>
-
+{# place project specific Javascript in this file #}
+<script defer src="{% static 'js/project.js' %}"></script>
+{% endblock javascript %}
+</head>
+<body id="edit_mode_menu">
+{# place Notifications #}
+<div id="notifications"></div>
+{# place for Card Edit Popup #}
+<div id="modal" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
+<div id="card_edit_popup" class="modal-dialog modal-lg modal-dialog-centered" role="document"></div>
+</div>
+{% block nav %}
+{% include 'partials/topbar.html' %}
+{% endblock nav %}
+{# container #}
+{% block modal %}
+<div class="main">
+<div class="container" id="groups_results">
+{% include 'partials/messages.html' %}
+{% block content %}
+{% endblock content %}
+{% include 'partials/footer.html' %}
+</div>
+</div>
+{% endblock modal %}
+{# For debug tool bar #}
+</body>
 </html>

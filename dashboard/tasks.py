@@ -1,17 +1,15 @@
+import platform  # For getting the operating system name
+import subprocess  # For executing a shell command
+from datetime import datetime
 from time import sleep
 
 import requests
-from datetime import datetime
-
-from django.conf import settings
-
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
+from django.conf import settings
 
 from .models import Card, Group
 
-import platform    # For getting the operating system name
-import subprocess  # For executing a shell command
 
 @shared_task(bind=True)
 def ping_task(host):
@@ -21,12 +19,13 @@ def ping_task(host):
     """
 
     # Option for the number of packets as a function of
-    param = '-n' if platform.system().lower()=='windows' else '-c'
+    param = "-n" if platform.system().lower() == "windows" else "-c"
 
     # Building the command. Ex: "ping -c 1 google.com"
-    command = ['ping', param, '1', host]
+    command = ["ping", param, "1", host]
     ret = subprocess.call(command)
     return ret
+
 
 # @shared_task(bind=True)
 # def get_video_stats(self):
@@ -92,7 +91,7 @@ def ping_task(host):
 
 @shared_task(bind=True)
 def test_task():
-    for i in range(1,11):
+    for i in range(1, 11):
         print(i)
         sleep(1)
     return "Task Completed"

@@ -47,7 +47,7 @@ CACHES = {
 EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
 if DEBUG:
     # Disable email verification for development
-    ACCOUNT_EMAIL_VERIFICATION = 'none'
+    ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # WhiteNoise
 # ------------------------------------------------------------------------------

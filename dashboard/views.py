@@ -1,34 +1,45 @@
 # import requests
-from datetime import datetime
 import json
-from ping3 import ping
-import requests
-# from celery.result import AsyncResult
-# from celery_progress.backend import Progress
+from datetime import datetime
 
+import requests
 from django.contrib.auth.decorators import login_required
+
 # from django.forms import Form
 from django.http import HttpResponse
+
 # from django.conf import settings
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+
 # from django.urls import reverse
 from django.utils.html import escape
-# from django_celery_beat.models import IntervalSchedule, PeriodicTask
+from ping3 import ping
 
 from .card_form import CardForm
 from .config_yml import read_config_yml, write_config_yml
+from .models import Card, Card_name_max_length, Group, Group_name_max_length, UserSettings
 
-from .models import Card, Group, UserSettings, Group_name_max_length, Card_name_max_length
+# from celery.result import AsyncResult
+# from celery_progress.backend import Progress
+
+
+# from django_celery_beat.models import IntervalSchedule, PeriodicTask
+
+
 # from .tasks import get_video_stats
 
 MAX_SIZE_START_TIME = 100
 START_TIME = [datetime.now()] * MAX_SIZE_START_TIME
 
+
 def _get_edit_mode(request):
-#    read_config_yml()
+    #    read_config_yml()
     class LocalUserSettings:
-        edit_mode=False
-    user_settings = [LocalUserSettings(),]
+        edit_mode = False
+
+    user_settings = [
+        LocalUserSettings(),
+    ]
     if request.user.is_authenticated:
         user_settings = UserSettings.objects.filter(user=request.user)
     return user_settings[0].edit_mode if len(user_settings) else False
@@ -36,15 +47,15 @@ def _get_edit_mode(request):
 
 def index(request):
     read_config_yml()
-    context = {'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/dashboard.html', context)
+    context = {"edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/dashboard.html", context)
 
 
 def card_list(request):
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/groups.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/groups.html", context)
 
 
 # def channel_search(request):
@@ -59,8 +70,8 @@ def card_list(request):
 
 @login_required
 def card_create(request, group_name):
-    req_name = escape(request.GET['q'])
-    req_name = req_name[:Card_name_max_length - 1]
+    req_name = escape(request.GET["q"])
+    req_name = req_name[: Card_name_max_length - 1]
     name = Card.objects.filter(name=req_name).first()
     group = Group.objects.get(name=group_name)
     if not name and req_name and group:
@@ -68,9 +79,9 @@ def card_create(request, group_name):
         card.save()
         write_config_yml()
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/groups.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/groups.html", context)
 
 
 @login_required
@@ -80,9 +91,10 @@ def card_delete(request, card_id):
         instance.delete()
     write_config_yml()
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/groups.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/groups.html", context)
+
 
 @login_required
 def card_edit_popup(request, card_id):
@@ -94,19 +106,18 @@ def card_edit_popup(request, card_id):
             write_config_yml()
             return HttpResponse(
                 status=201,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "cardListChanged": None,
-                        "showMessage": f"{card.name} updated."
-                    })
-                }
+                headers={"HX-Trigger": json.dumps({"cardListChanged": None, "showMessage": f"{card.name} updated."})},
             )
     else:
         form = CardForm(instance=card)
-    return render(request, 'partials/card_edit_popup.html', {
-        'form': form,
-        'card': card,
-    })
+    return render(
+        request,
+        "partials/card_edit_popup.html",
+        {
+            "form": form,
+            "card": card,
+        },
+    )
 
 
 @login_required
@@ -114,7 +125,7 @@ def card_status(request, card_id):
     card_id = int(card_id)
     card = get_object_or_404(Card, pk=card_id)
     # url = card.status_url
-    if ':' not in card.url:
+    if ":" not in card.url:
         status = ping(card.status_url)
     else:
         try:
@@ -127,23 +138,28 @@ def card_status(request, card_id):
                 status = (datetime.now() - START_TIME[card_id]).seconds
             else:
                 status = (datetime.now() - START_TIME[-1]).seconds
-    return render(request, 'partials/card_status.html', {
-        'status': status,
-    })
+    return render(
+        request,
+        "partials/card_status.html",
+        {
+            "status": status,
+        },
+    )
+
 
 @login_required
 def group_create(request):
-    req_name = escape(request.GET['q'])
-    req_name = req_name[:Group_name_max_length - 1]
+    req_name = escape(request.GET["q"])
+    req_name = req_name[: Group_name_max_length - 1]
     name = Group.objects.filter(name=req_name).fist()
     if not name and req_name:
         group = Group(name=req_name)
         group.save()
         write_config_yml()
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/groups.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/groups.html", context)
 
 
 @login_required
@@ -154,23 +170,28 @@ def group_delete(request, group_id):
         instance.delete()
     write_config_yml()
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': _get_edit_mode(request)}
-    return render(request, 'partials/groups.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    return render(request, "partials/groups.html", context)
+
 
 @login_required
 def edit_mode_menu(request):
     class LocalUserSettings:
-        edit_mode=False
-    user_settings = [LocalUserSettings(),]
+        edit_mode = False
+
+    user_settings = [
+        LocalUserSettings(),
+    ]
     if request.user.is_authenticated:
         user_settings = new_user_settings = UserSettings.objects.get(user=request.user)
         new_user_settings.edit_mode = not new_user_settings.edit_mode
         new_user_settings.save(update_fields=["edit_mode"])
     groups = Group.objects.all()
-    cards = Card.objects.order_by('-group')  #[0:50]
-    context = {'groups': groups, 'cards': cards, 'edit_mode': user_settings.edit_mode}
-    return render(request, 'partials/dashboard.html', context)
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {"groups": groups, "cards": cards, "edit_mode": user_settings.edit_mode}
+    return render(request, "partials/dashboard.html", context)
+
 
 # def generate(request):
 #     task = get_video_stats.delay()

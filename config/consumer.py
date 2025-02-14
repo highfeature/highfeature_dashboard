@@ -19,13 +19,6 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
         # follow process Django do for normal view
         template = Template('<div id="notification"><p>{{message}}</p></div>')
-        context = Context({"message":message})
+        context = Context({"message": message})
         rendered_notification = template.render(context)
-        await self.send(
-            text_data=json.dumps(
-                {
-                    "type": "notification",
-                    'message': rendered_notification
-                }
-            )
-        )
+        await self.send(text_data=json.dumps({"type": "notification", "message": rendered_notification}))

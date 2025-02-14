@@ -58,8 +58,8 @@ Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readt
 ### Celery
 Twist:
 Celery works with Redis.
-Redis Server listens to the client and enqueues the task to the task queue. 
-In simple words, Django and Celery use Redis to communicate with each other. 
+Redis Server listens to the client and enqueues the task to the task queue.
+In simple words, Django and Celery use Redis to communicate with each other.
 It means we have to install Redis as well to make our celery work perfectly fine.
 
 This app comes with Celery.
@@ -73,11 +73,11 @@ export USE_DOCKER=no
 celery -A config.celery_app worker -l info
 ```
 
-Please note: 
-For Celery's import magic to work, it is important _where_ the celery commands are run. 
+Please note:
+For Celery's import magic to work, it is important _where_ the celery commands are run.
 If you are in the same folder with _manage.py_, you should be right.
 
-To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service. 
+To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html), you'll need to start the celery beat scheduler service.
 You can start it as a standalone process:
 ```bash
 cd highfeature_dashboard
@@ -86,7 +86,7 @@ export USE_DOCKER=no
 celery -A config.celery_app beat -l info
 ```
 
-or you can embed the beat service inside a worker with the `-B` option 
+or you can embed the beat service inside a worker with the `-B` option
 (not recommended for production use):
 ```bash
 cd highfeature_dashboard
@@ -97,9 +97,9 @@ Then run or debug the app in Pycharm or other.
 
 ### Sentry
 
-Sentry is an error logging aggregator service. You can sign up for a free account at 
+Sentry is an error logging aggregator service. You can sign up for a free account at
 <https://sentry.io/signup/?code=cookiecutter> or download and host it yourself.
-The system is set up with reasonable defaults, including 404 logging and integration with 
+The system is set up with reasonable defaults, including 404 logging and integration with
 the WSGI application.
 
 You must set the DSN url in production.
@@ -160,8 +160,8 @@ python ./manage.py migrate
 Create a file .envs/.production/.django containing and
 create a file .envs/.production/.postgress containing
 ```commandline
-No, I'm kidding, NEVER put into production a product that is not tested, 
-that has not passed all validation tests, in DEV and UAT environment, 
+No, I'm kidding, NEVER put into production a product that is not tested,
+that has not passed all validation tests, in DEV and UAT environment,
 and whose deployment process is not automated, and I DON'T kid on that.
 And has you can see, put all secret in vault or in worse case in files,
 that are never store in the repository.
