@@ -1,33 +1,37 @@
 cards:
-- description: a description just to test the tip size in case that is very long but
-    very very long so long
-  group: aaa
-  image: dashboard-icons/png/portainer.png
-  name: Portainer
+- group: aaa
+  image: arch-linux.png
+  name: test1
+- group: aaa
+  image: arch-linux.png
+  name: rsvvtr rrsriev
   status_code: '200'
   status_enable: true
   status_freq: 10
-  url: https://localhost:9443/
+  status_url: http://127.0.0.12
+  url: http://127.0.0.12
 - group: aaa
-  image: dashboard-icons/png/nitter.png
+  image: arch-linux.png
+  name: rsqq
+- group: aaa
+  image: arch-linux.png
+  name: f32st
+- group: aaa
+  image: nitter.png
   name: Apache Nifi
   status_code: '200'
   status_enable: true
   status_freq: 10
   url: https://localhost:8443/nifi/access/config
-- group: aaa
-  image: dashboard-icons/png/arch.png
-  name: f32st
-- group: aaa
-  image: dashboard-icons/png/arch.png
-  name: rsqq
-- group: aaa
-  image: dashboard-icons/png/arch.png
-  name: rsvvtr rrsriev
-  url: http://127.0.0.1
-- group: aaa
-  image: dashboard-icons/png/arch.png
-  name: test1
+- description: a description just to test the tip size in case that is very long but
+    very very long so long
+  group: aaa
+  image: portainer.png
+  name: Portainer
+  status_code: '200'
+  status_enable: true
+  status_freq: 10
+  url: https://localhost:9443/
 groups:
 - name: aaa
 - name: fff

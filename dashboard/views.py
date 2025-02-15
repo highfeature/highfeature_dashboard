@@ -1,35 +1,40 @@
-# import requests
 import json
+import logging
+import os
 from datetime import datetime
 
 import requests
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
-
-# from django.forms import Form
 from django.http import HttpResponse
-
-# from django.conf import settings
 from django.shortcuts import get_object_or_404, render
-
-# from django.urls import reverse
 from django.utils.html import escape
+from django.views import View
 from ping3 import ping
 
 from .card_form import CardForm
 from .config_yml import read_config_yml, write_config_yml
 from .models import Card, Card_name_max_length, Group, Group_name_max_length, UserSettings
 
-# from celery.result import AsyncResult
-# from celery_progress.backend import Progress
-
-
-# from django_celery_beat.models import IntervalSchedule, PeriodicTask
-
-
-# from .tasks import get_video_stats
-
 MAX_SIZE_START_TIME = 100
 START_TIME = [datetime.now()] * MAX_SIZE_START_TIME
+
+
+class IconAutocomplete(View):
+    def get(self, request, *args, **kwargs):
+        # Path to the tree.json file
+        tree_json_path = os.path.join(
+            settings.BASE_DIR, "highfeature_dashboard", "static", "dashboard-icons", "tree.json"
+        )
+        # Load the JSON data
+        with open(tree_json_path, encoding="utf-8") as file:
+            data = json.load(file)
+        # Extract the relevant images
+        images = []
+        for item in data["png"]:
+            if request.GET["wordInput"] in item:
+                images.append(item)
+        return render(request, "partials/images.html", {"images": images})
 
 
 def _get_edit_mode(request):
@@ -56,16 +61,6 @@ def card_list(request):
     cards = Card.objects.order_by("-group")  # [0:50]
     context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
     return render(request, "partials/groups.html", context)
-
-
-# def channel_search(request):
-#     query = request.GET['q']
-#     url = f'https://www.googleapis.com/youtube/v3/search?q={query}&type=channel&part=snippet&key={settings.YOUTUBE_API_KEY}'
-#     res = requests.get(url)
-#
-#     results = res.json()['items']
-#     context = {'results': results}
-#     return render(request, 'partials/channel_search_results.html', context)
 
 
 @login_required
@@ -102,6 +97,7 @@ def card_edit_popup(request, card_id):
     if request.method == "POST":
         form = CardForm(request.POST, instance=card)
         if form.is_valid():
+            form.cleaned_data["image"] = "dashboard-icons/png/" + form.cleaned_data["image"]
             form.save()
             write_config_yml()
             return HttpResponse(
@@ -124,7 +120,6 @@ def card_edit_popup(request, card_id):
 def card_status(request, card_id):
     card_id = int(card_id)
     card = get_object_or_404(Card, pk=card_id)
-    # url = card.status_url
     if ":" not in card.url:
         status = ping(card.status_url)
     else:
@@ -133,11 +128,15 @@ def card_status(request, card_id):
             status = response.elapsed.total_seconds()
             if card_id < MAX_SIZE_START_TIME:
                 START_TIME[card_id] = datetime.now()
-        except Exception as e:
+        except requests.ConnectionError as e:
+            # expected exception, when the service to check go down
             if card_id < MAX_SIZE_START_TIME:
                 status = (datetime.now() - START_TIME[card_id]).seconds
             else:
                 status = (datetime.now() - START_TIME[-1]).seconds
+        except Exception as e:
+            # todo: must be traited before deploy in prod
+            logging.critical("Unexpected Exception, do you try to break the server ?")
     return render(
         request,
         "partials/card_status.html",
@@ -191,40 +190,3 @@ def edit_mode_menu(request):
     cards = Card.objects.order_by("-group")  # [0:50]
     context = {"groups": groups, "cards": cards, "edit_mode": user_settings.edit_mode}
     return render(request, "partials/dashboard.html", context)
-
-
-# def generate(request):
-#     task = get_video_stats.delay()
-#     context = {'task_id': task.task_id, 'value': 0}
-#     return render(request, 'partials/progress_bar.html', context)
-
-
-# def get_next_rows(request):
-#     offset = int(request.GET['offset'])
-#     results = Video.objects.order_by('-views')[offset:offset+50]
-#     context = {'results': results, 'offset': offset+50}
-#     return render(request, 'partials/result_rows.html', context)
-
-
-# @csrf_exempt
-# def deletechannel(request, channel_id):
-#     Channel.objects.filter(pk=channel_id).delete()
-#
-#     channels = Channel.objects.all()
-#     context = {'channels': channels}
-#     return render(request, 'partials/channels.html', context)
-
-
-# def schedule_task(request):
-#     interval, _ = IntervalSchedule.object.get_or_create(
-#         every=1,
-#         period=IntervalSchedule.HOURS,
-#     )
-#     PeriodicTask.object.create(
-#         interval=interval,
-#         name='my-schedule',
-#         task='app.tasks.test_task',
-#         #args=json.dumps(['arg1','arg2'],  # arg to pass to the task
-#         #one_off=True,  # if you want run task only one time
-#     )
-#     return "Task Scheduled!"

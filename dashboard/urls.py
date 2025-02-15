@@ -12,9 +12,5 @@ urlpatterns = [
     path("card_edit_popup/<card_id>", views.card_edit_popup, name="card_edit_popup"),
     path("group_create", views.group_create, name="group_create"),
     path("group_delete/<group_id>", views.group_delete, name="group_delete"),
-    # path('addchannel/<channel_id>/', views.add_channel, name='add-channel'),
-    # path('generate/', views.generate, name='generate'),
-    # path('get_progress/<task_id>/', views.get_progress, name='get-progress'),
-    # path('delete_channel/<channel_id>/', views.deletechannel, name='delete-channel'),
-    # path('schedule', views.schedule_task, name='schedule'),
+    path("ajax/icon-autocomplete", views.IconAutocomplete.as_view(), name="icon-autocomplete"),
 ]

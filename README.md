@@ -68,8 +68,6 @@ To run a celery worker:
 
 ```bash
 cd highfeature_dashboard
-export CELERY_BROKER_URL=
-export USE_DOCKER=no
 celery -A config.celery_app worker -l info
 ```
 
@@ -81,8 +79,6 @@ To run [periodic tasks](https://docs.celeryq.dev/en/stable/userguide/periodic-ta
 You can start it as a standalone process:
 ```bash
 cd highfeature_dashboard
-export CELERY_BROKER_URL=
-export USE_DOCKER=no
 celery -A config.celery_app beat -l info
 ```
 

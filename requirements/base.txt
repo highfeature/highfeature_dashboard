@@ -23,3 +23,4 @@ django-model-utils==5.0.0  # https://github.com/jazzband/django-model-utils
 django-allauth[mfa]==65.3.1  # https://github.com/pennersr/django-allauth
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
 django-widget-tweaks==1.5.0
+django-autocomplete-light==3.11.0

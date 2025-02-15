@@ -12,9 +12,6 @@ from .models import (
     Card_url_max_length,
 )
 
-# from django.utils.safestring import mark_safe
-# from pylint_django.transforms.transforms.django_utils_translation import ugettext_lazy as _
-
 
 # TODO: fix translation
 def _(s):
@@ -25,7 +22,7 @@ class CardForm(forms.ModelForm):
     name = forms.CharField(required=True, max_length=Card_name_max_length, label=_("Name"))
     description = forms.CharField(required=False, max_length=Card_desc_max_length, label=_("Description"))
     image = forms.CharField(
-        required=False, max_length=Card_image_max_length, initial="dashboard-icons/png/arch.png", label=_("Image")
+        required=False, max_length=Card_image_max_length, initial="arch-linux.png", label=_("Image")
     )
     url = forms.URLField(required=True, max_length=Card_url_max_length, initial="", label=_("Url"))
     status_enable = forms.BooleanField(required=False, initial=False, label=_("Enable Status"))
@@ -46,14 +43,10 @@ class CardForm(forms.ModelForm):
         required=False, max_length=Card_docker_container_name_max_length, initial="", label=_("Docker Container Name")
     )
 
-    # def image_tag(self):
-    #     return mark_safe('<img src="dashboard-icons/png/%s" width="25" height="25" />' % self.image)
-
     class Meta:
         model = Card
         # exclude = ['docker_container_status','docker_container_uptime']
         fields = [
-            # 'group',
             "name",
             "description",
             "image",

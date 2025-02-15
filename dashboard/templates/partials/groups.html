@@ -9,8 +9,8 @@
           <span hx-get="{% url 'group_delete' group.id %}"
                 hx-target="#groups_results">
             <i class="tooltip fa fa-remove" style="font-size:24px;color:red">
-              <span class="tooltiptext" style=font-size:1rem;"> {% translate "Delete the Group, WARNING: That will also delete all the Card of the group!" %} </span> </i> </span>
-            {% endif %}
+              <span class="tooltiptext" style="font-size:1rem;"> {% translate "Delete the Group, WARNING: That will also delete all the Card of the group!" %} </span> </i> </span>
+            {% endif user.is_authenticated and edit_mode %}
           </h1>
           <div class="row">
             <div class="col-xxl-12 d-flex">
@@ -24,102 +24,105 @@
                             {% if user.is_authenticated and edit_mode %}
                               <div class="row">
                                 <div class="col-sm-1">
-                                  <span hx-get="{% url 'card_delete' card.id %}" hx-target="#groups_results"> <i class="tooltip fa fa-remove" style="font-size:24px;color:red"> <span class="tooltiptext" style=font-size:1rem;">{% translate "Delete the Card!" %}</span>
-                                </i>
-                              </span>
+                                  <span hx-get="{% url 'card_delete' card.id %}" hx-target="#groups_results">
+                                    <i class="tooltip fa fa-remove" style="font-size:24px;color:red">
+                                      <span class="tooltiptext" style="font-size:1rem;">{% translate "Delete the Card!" %}</span>
+                                    </i>
+                                  </span>
+                                </div>
+                                <div class="col-sm-9"></div>
+                                <div class="col-sm-1">
+                                  <span hx-get="{% url 'card_edit_popup' card.id %}"
+                                        hx-target="#card_edit_popup">
+                                    <i class="tooltip fa fa-sliders" style="font-size:24px;color:red">
+                                      <span class="tooltiptext" style="font-size:1rem;">{% translate "Edit the Card..." %}</span>
+                                    </i>
+                                  </span>
+                                </div>
+                              </div>
+                            {% endif user.is_authenticated and edit_mode %}
+                            <div class="row">
+                              <div id="to-hover" class="col mt-0">
+                                {% if car.name|length > 22 %}
+                                  <h5 class="card-title">{{ card.name }}</h5>
+                                {% else %}
+                                  <h6 class="card-title">{{ card.name }}</h6>
+                                {% endif car.name|length > 22 %}
+                                <div id="to-show">{{ card.description }}</div>
+                              </div>
+                              <div class="col-auto">
+                                <img src="{% static 'dashboard-icons/png/' %}{{ card.image }}"
+                                     width="50"
+                                     height="50"
+                                     alt="icon" />
+                              </div>
                             </div>
-                            <div class="col-sm-9"></div>
-                            <div class="col-sm-1">
-                              <span hx-get="{% url 'card_edit_popup' card.id %}"
-                                    hx-target="#card_edit_popup">
-                                <i class="tooltip fa fa-sliders" style="font-size:24px;color:red">
-                                  <span class="tooltiptext" style=font-size:1rem;">{% translate "Edit the Card..." %}</span>
-                                </i>
-                              </span>
-                            </div>
-                          </div>
-                        {% endif %}
-                        <div class="row">
-                          <div id="to-hover" class="col mt-0">
-                            {% if car.name|length > 22 %}
-                              <h5 class="card-title">{{ card.name }}</h5>
+                            {% if user.is_authenticated and not edit_mode and card.status_enable %}
+                              <div class="mb-0"
+                                   id="card_{{ card.id }}"
+                                   hx-trigger="every {{ card.status_freq }}s"
+                                   hx-get="{% url 'card_status' card.id %}"
+                                   hx-target="this">
+                                <span class="text-muted">Since last week</span>
+                              </div>
                             {% else %}
-                              <h6 class="card-title">{{ card.name }}</h6>
-                            {% endif %}
-                            <div id="to-show">{{ card.description }}</div>
-                          </div>
-                          <div class="col-auto">
-                            <img src="static/{{ card.image }}" width="50" height="50" />
-                          </div>
-                        </div>
-                        <!-- <main class="content"
-       hx-trigger="load, every 5s, cardListChanged from:body"
-       hx-get="{% url 'card_list' %}"
-       hx-target="this"> -->
-                        {% if user.is_authenticated and not edit_mode and card.status_enable %}
-                          <div class="mb-0"
-                               id="card_{{ card.id }}"
-                               hx-trigger="every {{ card.status_freq }}s"
-                               hx-get="{% url 'card_status' card.id %}"
-                               hx-target="this">
-                          {% else %}
-                            <div class="mb-0">
-                            {% endif %}
-                            <span class="text-muted">Since last week</span>
+                              <div class="mb-0">
+                                <span class="text-muted">Since last week</span>
+                              </div>
+                            {% endif user.is_authenticated and not edit_mode and card.status_enable %}
                           </div>
                         </div>
                       </div>
-                    </div>
-                  {% endif %}
-                {% endfor %}
-                {% if user.is_authenticated and edit_mode %}
-                  <div class="col-sm-4">
-                    <div class="card">
-                      <div class="card-body">
-                        <form hx-get="{% url 'card_create' group.name %}"
-                              hx-target="#groups_results">
-                          <div class="row">
-                            <div class="col mt-0">
-                              <div class="field has-addons">
-                                <div class="control is-expanded">
-                                  <input class="input w-100" name="q" type="text" placeholder="Card name" />
+                    {% endif card.group == group %}
+                  {% endfor card in cards %}
+                  {% if user.is_authenticated and edit_mode %}
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <form hx-get="{% url 'card_create' group.name %}"
+                                hx-target="#groups_results">
+                            <div class="row">
+                              <div class="col mt-0">
+                                <div class="field has-addons">
+                                  <div class="control is-expanded">
+                                    <input class="input w-100" name="q" type="text" placeholder="Card name" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto">
+                                <div class="stat text-primary">
+                                  <i class="align-middle" data-feather="folder"></i>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-auto">
-                              <div class="stat text-primary">
-                                <i class="align-middle" data-feather="folder"></i>
+                            <div class="row">
+                              <div class="mb-0">
+                                <div class="control">
+                                  <button class="btn btn-primary">Create a card</button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="row">
-                            <div class="mb-0">
-                              <div class="control">
-                                <button class="btn btn-primary">Create a card</button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
+                          </form>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                {% endif %}
+                  {% endif user.is_authenticated and edit_mode %}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      {% endfor group in groups %}
+    {% endif groups %}
+    {% if user.is_authenticated and edit_mode %}
+      <div class="container">
+        <form hx-get="{% url 'group_create' %}" hx-target="#groups_results">
+          <div class="control">
+            <h1 class="h3 mb-3">
+              <input class="input w-50" name="q" type="text" placeholder="Group name" />
+              <button class="btn btn-primary">Create a Group</button>
+            </h1>
+          </div>
+        </form>
       </div>
-    {% endfor %}
-  {% endif %}
-  {% if user.is_authenticated and edit_mode %}
-    <div class="container">
-      <form hx-get="{% url 'group_create' %}" hx-target="#groups_results">
-        <div class="control">
-          <h1 class="h3 mb-3">
-            <input class="input w-50" name="q" type="text" placeholder="Group name" />
-            <button class="btn btn-primary">Create a Group</button>
-          </h1>
-        </div>
-      </form>
-    </div>
-  {% endif %}
+    {% endif %}
