@@ -117,9 +117,7 @@ def write_config_yml():
     for group in groups:
         configuration["groups"].append({"name": group.name})
     for card in cards:
-        the_card = dict()
-        the_card["name"] = card.name
-        the_card["group"] = card.group.name
+        the_card = {"name": card.name, "group": card.group.name}
         if len(card.description):
             the_card["description"] = card.description
         if len(card.url):
