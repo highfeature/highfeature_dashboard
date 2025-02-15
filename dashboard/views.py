@@ -24,7 +24,7 @@ class IconAutocomplete(View):
     def get(self, request, *args, **kwargs):
         # Path to the tree.json file
         tree_json_path = os.path.join(
-            settings.BASE_DIR, "highfeature_dashboard", "static", "dashboard-icons", "tree.json"
+            settings.BASE_DIR, "highfeature_dashboard", "static", "dashboard_icons", "tree.json"
         )
         # Load the JSON data
         with open(tree_json_path, encoding="utf-8") as file:
@@ -97,7 +97,7 @@ def card_edit_popup(request, card_id):
     if request.method == "POST":
         form = CardForm(request.POST, instance=card)
         if form.is_valid():
-            form.cleaned_data["image"] = "dashboard-icons/png/" + form.cleaned_data["image"]
+            form.cleaned_data["image"] = "dashboard_icons/png/" + form.cleaned_data["image"]
             form.save()
             write_config_yml()
             return HttpResponse(

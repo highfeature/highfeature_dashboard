@@ -9,9 +9,11 @@
           <span hx-get="{% url 'group_delete' group.id %}"
                 hx-target="#groups_results">
             <i class="tooltip fa fa-remove" style="font-size:24px;color:red">
-              <span class="tooltiptext" style="font-size:1rem;"> {% translate "Delete the Group, WARNING: That will also delete all the Card of the group!" %} </span> </i> </span>
-            {% endif user.is_authenticated and edit_mode %}
-          </h1>
+              <span class="tooltiptext" style="font-size:1rem;"> {% translate "Delete the Group, WARNING: That will also delete all the Card of the group!" %} </span>
+            </i>
+          </span>
+        {% endif %}
+      </h1>
           <div class="row">
             <div class="col-xxl-12 d-flex">
               <div class="w-100">
@@ -40,18 +42,18 @@
                                   </span>
                                 </div>
                               </div>
-                            {% endif user.is_authenticated and edit_mode %}
+                            {% endif %}
                             <div class="row">
                               <div id="to-hover" class="col mt-0">
                                 {% if car.name|length > 22 %}
                                   <h5 class="card-title">{{ card.name }}</h5>
                                 {% else %}
                                   <h6 class="card-title">{{ card.name }}</h6>
-                                {% endif car.name|length > 22 %}
+                                {% endif %}
                                 <div id="to-show">{{ card.description }}</div>
                               </div>
                               <div class="col-auto">
-                                <img src="{% static 'dashboard-icons/png/' %}{{ card.image }}"
+                                <img src="{% static 'dashboard_icons/png/' %}{{ card.image }}"
                                      width="50"
                                      height="50"
                                      alt="icon" />
@@ -69,12 +71,12 @@
                               <div class="mb-0">
                                 <span class="text-muted">Since last week</span>
                               </div>
-                            {% endif user.is_authenticated and not edit_mode and card.status_enable %}
+                            {% endif %}
                           </div>
                         </div>
                       </div>
-                    {% endif card.group == group %}
-                  {% endfor card in cards %}
+                    {% endif %}
+                  {% endfor cards %}
                   {% if user.is_authenticated and edit_mode %}
                     <div class="col-sm-4">
                       <div class="card">
@@ -106,14 +108,14 @@
                         </div>
                       </div>
                     </div>
-                  {% endif user.is_authenticated and edit_mode %}
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      {% endfor group in groups %}
-    {% endif groups %}
+      {% endfor group %}
+    {% endif %}
     {% if user.is_authenticated and edit_mode %}
       <div class="container">
         <form hx-get="{% url 'group_create' %}" hx-target="#groups_results">

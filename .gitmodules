@@ -1,3 +1,3 @@
-[submodule "highfeature_dashboard/static/dashboard-icons"]
-	path = highfeature_dashboard/static/dashboard-icons
+[submodule "highfeature_dashboard/static/dashboard_icons"]
+	path = highfeature_dashboard/static/dashboard_icons
 	url = https://github.com/homarr-labs/dashboard-icons.git

@@ -1,21 +1,11 @@
 {% load static i18n %}
 
 {% block javascript %}
-  <!--  <script>
-    -- >
-    <
-    !--$("#id_image").change(function() {
-      -- >
-      <
-      !--console.log($(this).val());
-      -- >
-      <
-      !--
-    });
-    -- >
-    <
-    !--
-  </script>-->
+  <!--  <script>    -->
+  <!--$("#id_image").change(function() {      -->
+  <!--console.log($(this).val());    -->
+  <!--    });    -->
+  <!--  </script> -->
   <script>
     function checkUserKeydown(event) {
       return event instanceof KeyboardEvent
@@ -149,7 +139,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <img src="{% static dashboard-icons/png/arch-linux.png %}"
+      <img src="{% static 'dashboard_icons/png/arch-linux.png' %}"
            width="50"
            height="50"
            alt="image" />

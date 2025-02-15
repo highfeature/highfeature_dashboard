@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="card",
             name="image",
-            field=models.CharField(default="dashboard-icons/png/arch.png", max_length=100),
+            field=models.CharField(default="dashboard_icons/png/arch.png", max_length=100),
         ),
         migrations.AddField(
             model_name="card",
