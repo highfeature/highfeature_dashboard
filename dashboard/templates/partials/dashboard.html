@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <main class="content"
-        hx-trigger="load, cardListChanged from:body"
-        hx-get="{% url 'card_list' %}"
-        hx-target="this">
-    <span class="visually-hidden">Loading...</span>
-  </main>
+<main class="content"
+      hx-trigger="load, cardListChanged from:body"
+      hx-get="{% url 'card_list' %}"
+      hx-target="this">
+  <span class="visually-hidden">Loading...</span>
+</main>
 {% endblock content %}

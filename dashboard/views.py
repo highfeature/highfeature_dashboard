@@ -6,7 +6,8 @@ from datetime import datetime
 import requests
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.forms import forms
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.html import escape
 from django.views import View
@@ -32,7 +33,7 @@ class IconAutocomplete(View):
         # Extract the relevant images
         images = []
         for item in data["png"]:
-            if request.GET["wordInput"] in item:
+            if request.GET["image"] in item:
                 images.append(item)
         return render(request, "partials/images.html", {"images": images})
 
@@ -97,21 +98,26 @@ def card_edit_popup(request, card_id):
     if request.method == "POST":
         form = CardForm(request.POST, instance=card)
         if form.is_valid():
-            form.cleaned_data["image"] = "dashboard_icons/png/" + form.cleaned_data["image"]
-            form.save()
-            write_config_yml()
-            return HttpResponse(
-                status=201,
-                headers={"HX-Trigger": json.dumps({"cardListChanged": None, "showMessage": f"{card.name} updated."})},
-            )
+            try:
+                newObject = form.save()
+                write_config_yml()
+            except Exception as error:  # forms.ValidationError
+                newObject = None
+            if newObject:
+                return HttpResponse(
+                    f"Card {card.name} updated.",
+                    status=201,
+                    headers={
+                        "HX-Trigger": json.dumps({"cardListChanged": None, "showMessage": f"{card.name} updated."})
+                    },
+                )
     else:
         form = CardForm(instance=card)
     return render(
         request,
         "partials/card_edit_popup.html",
         {
-            "form": form,
-            "card": card,
+            "form": form.initial,
         },
     )
 
@@ -135,7 +141,7 @@ def card_status(request, card_id):
             else:
                 status = (datetime.now() - START_TIME[-1]).seconds
         except Exception as e:
-            # todo: must be traited before deploy in prod
+            # todo: must be managed before deploy in prod
             logging.critical("Unexpected Exception, do you try to break the server ?")
     return render(
         request,

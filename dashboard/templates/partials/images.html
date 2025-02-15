@@ -1,5 +1,9 @@
 {% if images %}
   {% for image in images %}
-<option value="{{ image }}" style="background-image: /static/dashboard_icons/png/{{ image }};"></option>
+<option value="{{ image }}">
+<!--  Just 2 try to display image in the list but they does not work -->
+<!--  style="background-image: /static/dashboard_icons/png/{{ image }};">-->
+<!--  <img src="/static/dashboard_icons/png/{{ image }}" width="50" height="50" alt="image" />-->
+</option>
   {% endfor %}
 {% endif %}

@@ -1,17 +1,13 @@
 {% load static i18n %}
 
 {% block javascript %}
-  <!--  <script>    -->
-  <!--$("#id_image").change(function() {      -->
-  <!--console.log($(this).val());    -->
-  <!--    });    -->
-  <!--  </script> -->
-  <script>
-    function checkUserKeydown(event) {
-      return event instanceof KeyboardEvent
-    }
-  </script>
+<script>
+function checkUserKeydown(event) {
+  return event instanceof KeyboardEvent
+};
+</script>
 {% endblock %}
+
 <div class="modal-content">
   <form id="cardeditpopupform"
         name="cardeditpopupform"
@@ -34,11 +30,11 @@
           </label>
           <input type="text"
                  name="name"
-                 value="rsvvtr rrsriev"
                  maxlength="22"
                  class="textinput form-control"
                  required=""
-                 id="id_name" />
+                 id="id_name"
+                 value="{{ form.name }}"  />
         </div>
         <div id="div_id_description" class="mb-3">
           <label for="id_description" class="form-label">Description</label>
@@ -46,17 +42,19 @@
                  name="description"
                  maxlength="100"
                  class="textinput form-control"
-                 id="id_description" />
+                 id="id_description"
+                 value="{{ form.description }}" />
         </div>
         <div id="div_id_image" class="mb-3">
           <label>
-            Type a word
+            Icon file
             <input list="id_image"
                    type="text"
-                   id="wordInput"
-                   name="wordInput"
+                   id="image"
+                   name="image"
                    autocomplete="off"
                    placeholder="arch-linux.png"
+                   value="{{ form.image }}"
                    hx-get="/ajax/icon-autocomplete"
                    hx-target="#id_image"
                    hx-trigger="keyup[checkUserKeydown.call(this, event)] changed delay:25ms" />
@@ -69,7 +67,7 @@
           </label>
           <input type="url"
                  name="url"
-                 value="http://127.0.0.1"
+                 value="{{ form.url }}"
                  maxlength="150"
                  class="urlinput form-control"
                  required=""
@@ -80,36 +78,29 @@
             <input type="checkbox"
                    name="status_enable"
                    class="checkboxinput form-check-input"
-                   id="id_status_enable" />
+                   id="id_status_enable"
+                   {% if form.status_enable %}checked{% endif %}/>
             <label for="id_status_enable" class="form-check-label">Enable Status</label>
           </div>
-        </div>
-        <div id="div_id_status_url" class="mb-3">
-          <label for="id_status_url" class="form-label">Status Url</label>
-          <input type="url"
-                 name="status_url"
-                 maxlength="150"
-                 class="urlinput form-control"
-                 id="id_status_url" />
         </div>
         <div id="div_id_status_code" class="mb-3">
           <label for="id_status_code" class="form-label">Status Code</label>
           <input type="text"
                  name="status_code"
-                 value="200"
                  maxlength="4"
                  class="textinput form-control"
-                 id="id_status_code" />
+                 id="id_status_code"
+                 value="{{ form.status_code }}" />
         </div>
         <div id="div_id_status_freq" class="mb-3">
           <label for="id_status_freq" class="form-label">Freq. Check in seconds (min 3)</label>
           <input type="number"
                  name="status_freq"
-                 value="10"
                  min="3"
                  max="86400"
                  class="numberinput form-control"
-                 id="id_status_freq" />
+                 id="id_status_freq"
+                 value="{{ form.status_freq }}" />
         </div>
         <div id="div_id_docker_server_url" class="mb-3">
           <label for="id_docker_server_url" class="form-label">Docker Server URL</label>
@@ -117,16 +108,17 @@
                  name="docker_server_url"
                  maxlength="150"
                  class="urlinput form-control"
-                 id="id_docker_server_url" />
+                 id="id_docker_server_url"
+                 value="{{ form.docker_server_url }}" />
         </div>
         <div id="div_id_docker_env" class="mb-3">
           <label for="id_docker_env" class="form-label">Docker Env</label>
           <input type="text"
                  name="docker_env"
-                 value="1"
                  maxlength="2"
                  class="textinput form-control"
-                 id="id_docker_env" />
+                 id="id_docker_env"
+                 value="{{ form.docker_env }}" />
         </div>
         <div id="div_id_docker_container_name" class="mb-3">
           <label for="id_docker_container_name" class="form-label">Docker Container Name</label>
@@ -134,17 +126,18 @@
                  name="docker_container_name"
                  maxlength="128"
                  class="textinput form-control"
-                 id="id_docker_container_name" />
+                 id="id_docker_container_name"
+                 value="{{ form.docker_container_name }}" />
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <img src="{% static 'dashboard_icons/png/arch-linux.png' %}"
+      <img src="{% static '/dashboard_icons/png/' %}{{ form.image }}"
            width="50"
            height="50"
            alt="image" />
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-      <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+      <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Save" %}</button>
     </div>
   </form>
 </div>
