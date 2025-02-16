@@ -43,6 +43,8 @@ class Card(models.Model):
 class UserSettings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     edit_mode = models.BooleanField(default=False)
+    # user preference
+    icon_form_table = models.BooleanField(default=False)
 
 
 class Notification(models.Model):

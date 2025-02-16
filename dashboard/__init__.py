@@ -1,0 +1,2 @@
+class CardCreationException(Exception):
+    pass

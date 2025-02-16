@@ -11,6 +11,7 @@ from .models import (
     Card_status_max_length,
     Card_url_max_length,
 )
+from .utils import _get_image_list
 
 
 # TODO: fix translation
@@ -59,3 +60,8 @@ class CardForm(forms.ModelForm):
             "docker_env",
             "docker_container_name",
         ]
+
+    def clean_image(self):
+        items = _get_image_list(self.cleaned_data.get("image"))
+        image = items[0] if len(items) else ""
+        return image

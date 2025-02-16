@@ -1,7 +1,28 @@
 cards:
+- description: a description just to test the tip size in case that is very long but
+    very very long so long
+  group: aaa
+  image: portainer.png
+  name: Portainer
+  status_code: '200'
+  status_enable: true
+  status_freq: 10
+  url: https://localhost:9443/
+- description: a description just to test the tip size in case that is very long but
+    very very long so long
+  group: aaa
+  image: seafile.png
+  name: Test app xxxyyy
+  status_code: '200'
+  status_enable: true
+  status_freq: 10
+  url: http://127.0.0.1
 - group: aaa
   image: arch-linux.png
-  name: test1
+  name: f32st
+- group: aaa
+  image: arch-linux.png
+  name: rsqq
 - description: a description just to test the tip size in case that is very long but
     very very long so long
   group: aaa
@@ -13,28 +34,7 @@ cards:
   url: http://127.0.0.1
 - group: aaa
   image: arch-linux.png
-  name: rsqq
-- group: aaa
-  image: arch-linux.png
-  name: f32st
-- description: a description just to test the tip size in case that is very long but
-    very very long so long
-  group: aaa
-  image: searxng.png
-  name: Test app xxxyyy
-  status_code: '200'
-  status_enable: true
-  status_freq: 10
-  url: http://127.0.0.1
-- description: a description just to test the tip size in case that is very long but
-    very very long so long
-  group: aaa
-  image: portainer.png
-  name: Portainer
-  status_code: '200'
-  status_enable: true
-  status_freq: 10
-  url: https://localhost:9443/
+  name: test1
 groups:
 - name: aaa
 - name: fff

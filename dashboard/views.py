@@ -1,54 +1,36 @@
 import json
 import logging
-import os
 from datetime import datetime
 
 import requests
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.forms import forms
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.html import escape
 from django.views import View
 from ping3 import ping
 
+from . import CardCreationException
 from .card_form import CardForm
 from .config_yml import read_config_yml, write_config_yml
 from .models import Card, Card_name_max_length, Group, Group_name_max_length, UserSettings
+from .utils import _get_edit_mode, _get_icon_form_table, _get_image_list
 
+MAX_SIZE_IMAGE_LIST = 10
 MAX_SIZE_START_TIME = 100
 START_TIME = [datetime.now()] * MAX_SIZE_START_TIME
 
 
 class IconAutocomplete(View):
     def get(self, request, *args, **kwargs):
-        # Path to the tree.json file
-        tree_json_path = os.path.join(
-            settings.BASE_DIR, "highfeature_dashboard", "static", "dashboard_icons", "tree.json"
+        return render(
+            request,
+            "partials/images.html",
+            {
+                "images": _get_image_list(request.GET["image"]),
+                "icon_form_table": _get_icon_form_table(request),
+            },
         )
-        # Load the JSON data
-        with open(tree_json_path, encoding="utf-8") as file:
-            data = json.load(file)
-        # Extract the relevant images
-        images = []
-        for item in data["png"]:
-            if request.GET["image"] in item:
-                images.append(item)
-        return render(request, "partials/images.html", {"images": images})
-
-
-def _get_edit_mode(request):
-    #    read_config_yml()
-    class LocalUserSettings:
-        edit_mode = False
-
-    user_settings = [
-        LocalUserSettings(),
-    ]
-    if request.user.is_authenticated:
-        user_settings = UserSettings.objects.filter(user=request.user)
-    return user_settings[0].edit_mode if len(user_settings) else False
 
 
 def index(request):
@@ -60,7 +42,11 @@ def index(request):
 def card_list(request):
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/groups.html", context)
 
 
@@ -76,7 +62,11 @@ def card_create(request, group_name):
         write_config_yml()
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/groups.html", context)
 
 
@@ -88,7 +78,11 @@ def card_delete(request, card_id):
     write_config_yml()
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/groups.html", context)
 
 
@@ -102,7 +96,7 @@ def card_edit_popup(request, card_id):
                 newObject = form.save()
                 write_config_yml()
             except Exception as error:  # forms.ValidationError
-                newObject = None
+                raise CardCreationException(str(form.cleaned_data) + str(newObject))
             if newObject:
                 return HttpResponse(
                     f"Card {card.name} updated.",
@@ -118,6 +112,7 @@ def card_edit_popup(request, card_id):
         "partials/card_edit_popup.html",
         {
             "form": form.initial,
+            "icon_form_table": _get_icon_form_table(request),
         },
     )
 
@@ -163,7 +158,11 @@ def group_create(request):
         write_config_yml()
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/groups.html", context)
 
 
@@ -176,23 +175,25 @@ def group_delete(request, group_id):
     write_config_yml()
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": _get_edit_mode(request)}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/groups.html", context)
 
 
 @login_required
 def edit_mode_menu(request):
-    class LocalUserSettings:
-        edit_mode = False
-
-    user_settings = [
-        LocalUserSettings(),
-    ]
     if request.user.is_authenticated:
-        user_settings = new_user_settings = UserSettings.objects.get(user=request.user)
+        new_user_settings = UserSettings.objects.get(user=request.user)
         new_user_settings.edit_mode = not new_user_settings.edit_mode
         new_user_settings.save(update_fields=["edit_mode"])
     groups = Group.objects.all()
     cards = Card.objects.order_by("-group")  # [0:50]
-    context = {"groups": groups, "cards": cards, "edit_mode": user_settings.edit_mode}
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
     return render(request, "partials/dashboard.html", context)
