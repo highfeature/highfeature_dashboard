@@ -23,9 +23,10 @@
 <!--          referrerpolicy="no-referrer" />-->
     {# Your stuff: Third-party CSS libraries go here #}
 <!--    <link href="{% static 'css/admin-kit.css' %}" rel="stylesheet" />-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
     {# This file stores project-specific CSS #}
-    <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/project.css' %}" />
     {% endblock css %}
 
     {# javascript #}
@@ -39,7 +40,8 @@
     <script defer src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
     {# Your stuff: Third-party javascript libraries go here #}
-    <script defer src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
+<!--    <script defer src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>-->
+    <script defer src="{% static 'js/htmx.js' %}"></script>
 <!--    <script defer src="{% static 'js/admin-kit.js' %}"></script>-->
 
     {# place project specific Javascript in this file #}

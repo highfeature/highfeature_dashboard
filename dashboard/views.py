@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 import requests
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_not_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.html import escape
@@ -21,7 +21,7 @@ MAX_SIZE_START_TIME = 100
 START_TIME = [datetime.now()] * MAX_SIZE_START_TIME
 
 
-class IconAutocomplete(View):
+class AjaxIconAutoComplete(View):
     def get(self, request, *args, **kwargs):
         return render(
             request,
@@ -33,9 +33,48 @@ class IconAutocomplete(View):
         )
 
 
+class AjaxIconFormTableMenu(View):
+    def get(self, request, *args, **kwargs):
+        # just to show how to handle the endpoint a class
+        if request.user.is_authenticated:
+            new_user_settings = UserSettings.objects.get(user=request.user)
+            new_user_settings.icon_form_table = not new_user_settings.icon_form_table
+            new_user_settings.save(update_fields=["icon_form_table"])
+        return render(
+            request,
+            "partials/icon_form_table.html",
+            {
+                "icon_form_table": _get_icon_form_table(request),
+            },
+        )
+
+
+def edit_mode_menu(request):
+    if request.user.is_authenticated:
+        new_user_settings = UserSettings.objects.get(user=request.user)
+        new_user_settings.edit_mode = not new_user_settings.edit_mode
+        new_user_settings.save(update_fields=["edit_mode"])
+    groups = Group.objects.all()
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+    }
+    return render(request, "partials/dashboard.html", context)
+
+
+@login_not_required
 def index(request):
     read_config_yml()
-    context = {"edit_mode": _get_edit_mode(request)}
+    groups = Group.objects.all()
+    cards = Card.objects.order_by("-group")  # [0:50]
+    context = {
+        "groups": groups,
+        "cards": cards,
+        "edit_mode": _get_edit_mode(request),
+        "icon_form_table": _get_icon_form_table(request),
+    }
     return render(request, "partials/dashboard.html", context)
 
 
@@ -50,7 +89,6 @@ def card_list(request):
     return render(request, "partials/groups.html", context)
 
 
-@login_required
 def card_create(request, group_name):
     req_name = escape(request.GET["q"])
     req_name = req_name[: Card_name_max_length - 1]
@@ -70,7 +108,6 @@ def card_create(request, group_name):
     return render(request, "partials/groups.html", context)
 
 
-@login_required
 def card_delete(request, card_id):
     instance = Card.objects.get(id=card_id)
     if instance:
@@ -86,7 +123,6 @@ def card_delete(request, card_id):
     return render(request, "partials/groups.html", context)
 
 
-@login_required
 def card_edit_popup(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
     if request.method == "POST":
@@ -117,7 +153,6 @@ def card_edit_popup(request, card_id):
     )
 
 
-@login_required
 def card_status(request, card_id):
     card_id = int(card_id)
     card = get_object_or_404(Card, pk=card_id)
@@ -147,7 +182,6 @@ def card_status(request, card_id):
     )
 
 
-@login_required
 def group_create(request):
     req_name = escape(request.GET["q"])
     req_name = req_name[: Group_name_max_length - 1]
@@ -166,7 +200,6 @@ def group_create(request):
     return render(request, "partials/groups.html", context)
 
 
-@login_required
 def group_delete(request, group_id):
     instance = Group.objects.get(id=group_id)
     if instance:
@@ -181,19 +214,3 @@ def group_delete(request, group_id):
         "edit_mode": _get_edit_mode(request),
     }
     return render(request, "partials/groups.html", context)
-
-
-@login_required
-def edit_mode_menu(request):
-    if request.user.is_authenticated:
-        new_user_settings = UserSettings.objects.get(user=request.user)
-        new_user_settings.edit_mode = not new_user_settings.edit_mode
-        new_user_settings.save(update_fields=["edit_mode"])
-    groups = Group.objects.all()
-    cards = Card.objects.order_by("-group")  # [0:50]
-    context = {
-        "groups": groups,
-        "cards": cards,
-        "edit_mode": _get_edit_mode(request),
-    }
-    return render(request, "partials/dashboard.html", context)

@@ -1,0 +1,8 @@
+{% if user.is_authenticated %}
+  {% load static i18n %}
+  {% if icon_form_table %}
+      {% translate "Icon form select Mode" %}
+  {% else %}
+      {% translate "Icon form table Mode" %}
+  {% endif %}
+{% endif %}

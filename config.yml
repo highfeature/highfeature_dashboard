@@ -11,7 +11,7 @@ cards:
 - description: a description just to test the tip size in case that is very long but
     very very long so long
   group: aaa
-  image: seafile.png
+  image: seelf.png
   name: Test app xxxyyy
   status_code: '200'
   status_enable: true
