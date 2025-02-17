@@ -12,7 +12,7 @@
     <title>{% block title %}highfeature_dashboard{% endblock title %}</title>
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
 
-   {% block css %}
+{% block css %}
     {# Latest compiled and minified Bootstrap CSS #}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar-static.css' %}">
@@ -27,11 +27,11 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
     {# This file stores project-specific CSS #}
     <link rel="stylesheet" href="{% static 'css/project.css' %}" />
-    {% endblock css %}
+{% endblock css %}
 
     {# javascript #}
     {# Placed at the top of the document so pages load faster with defer #}
-    {% block javascript %}
+{% block javascript %}
 <!--    <script defer-->
 <!--          src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"-->
 <!--          integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="-->
@@ -46,10 +46,10 @@
 
     {# place project specific Javascript in this file #}
     <script defer src="{% static 'js/project.js' %}"></script>
-    {% endblock javascript %}
+{% endblock javascript %}
   </head>
 
-  <body id="edit_mode_menu">
+  <body>
 
     {# place Notifications #}
     <div id="notifications"></div>
@@ -60,23 +60,24 @@
         </div>
     </div>
 
-    {% block nav %}
-      {% include 'partials/topbar.html' %}
-    {% endblock nav %}
-
     {# container #}
-    {% block modal %}
-    <div class="main">
-      <div class="container" id="groups_results">
-        {% include 'partials/messages.html' %}
+{% block modal %}
+    <div id="edit_mode_menu" class="main">
 
-        {% block content %}
-        {% endblock content %}
+{% block nav %}
+  {% include 'partials/topbar.html' %}
+{% endblock nav %}
 
-        {% include 'partials/footer.html' %}
+      <div id="groups_results" class="container">
+  {% include 'partials/messages.html' %}
+
+  {% block content %}
+  {% endblock content %}
+
+  {% include 'partials/footer.html' %}
       </div>
     </div>
-    {% endblock modal %}
+{% endblock modal %}
 
     {# For debug tool bar #}
 

@@ -54,14 +54,7 @@ def edit_mode_menu(request):
         new_user_settings = UserSettings.objects.get(user=request.user)
         new_user_settings.edit_mode = not new_user_settings.edit_mode
         new_user_settings.save(update_fields=["edit_mode"])
-    groups = Group.objects.all()
-    cards = Card.objects.order_by("-group")  # [0:50]
-    context = {
-        "groups": groups,
-        "cards": cards,
-        "edit_mode": _get_edit_mode(request),
-    }
-    return render(request, "partials/dashboard.html", context)
+    return index(request)
 
 
 @login_not_required
@@ -75,7 +68,7 @@ def index(request):
         "edit_mode": _get_edit_mode(request),
         "icon_form_table": _get_icon_form_table(request),
     }
-    return render(request, "partials/dashboard.html", context)
+    return render(request, "partials/dashboard.html", context, content_type="text/html")
 
 
 def card_list(request):
