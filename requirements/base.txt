@@ -3,11 +3,11 @@ celery==5.4.0  # pyup: < 6.0  # https://github.com/celery/celery
 celery-progress==0.5
 channels==4.2.0
 channels-redis==4.2.1
-hiredis==2.3.2  # https://github.com/redis/hiredis-py
-Pillow==10.2.0  # https://github.com/python-pillow/Pillow
+hiredis==3.1.0  # https://github.com/redis/hiredis-py
+Pillow==11.1.0  # https://github.com/python-pillow/Pillow
 ping3==4.0.8
 python-slugify==8.0.4  # https://github.com/un33k/python-slugify
-pyyaml==6.0.1
+pyyaml==6.0.2
 redis==5.2.1  # https://github.com/redis/redis-py
 uvicorn[standard]==0.34.0  # https://github.com/encode/uvicorn
 whitenoise==6.9.0  # https://github.com/evansd/whitenoise
@@ -20,7 +20,6 @@ django-crispy-forms==2.3  # https://github.com/django-crispy-forms/django-crispy
 django-celery-beat==2.7.0  # https://github.com/celery/django-celery-beat
 django-environ==0.12.0  # https://github.com/joke2k/django-environ
 django-model-utils==5.0.0  # https://github.com/jazzband/django-model-utils
-django-allauth[mfa]==65.3.1  # https://github.com/pennersr/django-allauth
+django-allauth[mfa]==65.4.1  # https://github.com/pennersr/django-allauth
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
 django-widget-tweaks==1.5.0
-django-autocomplete-light==3.11.0
