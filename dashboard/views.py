@@ -1,4 +1,3 @@
-import json
 import logging
 from datetime import datetime
 
@@ -125,15 +124,9 @@ def card_edit_popup(request, card_id):
                 newObject = form.save()
                 write_config_yml()
             except Exception as error:  # forms.ValidationError
-                raise CardCreationException(str(form.cleaned_data) + str(newObject))
+                raise CardCreationException(str(form.cleaned_data))
             if newObject:
-                return HttpResponse(
-                    f"Card {card.name} updated.",
-                    status=201,
-                    headers={
-                        "HX-Trigger": json.dumps({"cardListChanged": None, "showMessage": f"{card.name} updated."})
-                    },
-                )
+                return HttpResponse(status=201, headers={"HX-Trigger": "groupsCardsListChanged"})
     else:
         form = CardForm(instance=card)
     return render(

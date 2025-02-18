@@ -24,6 +24,7 @@
     {# Your stuff: Third-party CSS libraries go here #}
 <!--    <link href="{% static 'css/admin-kit.css' %}" rel="stylesheet" />-->
 <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <!--  Use the local for now, for test -->
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
     {# This file stores project-specific CSS #}
     <link rel="stylesheet" href="{% static 'css/project.css' %}" />
@@ -41,6 +42,7 @@
 
     {# Your stuff: Third-party javascript libraries go here #}
 <!--    <script defer src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>-->
+    <!--  Use the not minimized for now, for test -->
     <script defer src="{% static 'js/htmx.js' %}"></script>
 <!--    <script defer src="{% static 'js/admin-kit.js' %}"></script>-->
 
@@ -50,37 +52,33 @@
   </head>
 
   <body>
-
-    {# place Notifications #}
-    <div id="notifications"></div>
-
-    {# place for Card Edit Popup #}
-    <div id="modal" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
-        <div id="card_edit_popup" class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        </div>
-    </div>
-
-    {# container #}
-{% block modal %}
-    <div id="edit_mode_menu" class="main">
+  {# For debug toolbar #}
 
 {% block nav %}
   {% include 'partials/topbar.html' %}
 {% endblock nav %}
 
-      <div id="groups_results" class="container">
-  {% include 'partials/messages.html' %}
+{# place Notifications #}
+      <div id="notifications"></div>
 
-  {% block content %}
-  {% endblock content %}
+      <div id="edit_mode_menu" class="main"
+           hx-trigger="load, groupsCardsListChanged from:body"
+           hx-get="{% url 'card_list' %}"
+           hx-target="this">
 
-  {% include 'partials/footer.html' %}
+        <div id="groups_results" class="container">
+{% include 'partials/messages.html' %}
+
+{% block content %}
+{% endblock content %}
+
+{% include 'partials/footer.html' %}
+        </div>
       </div>
-    </div>
-{% endblock modal %}
-
-    {# For debug tool bar #}
-
-  </body>
-
+{# place for Card Edit Popup #}
+        <div id="modal" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
+          <div id="card_edit_popup" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          </div>
+        </div>
+   </body>
 </html>

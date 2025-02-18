@@ -25,6 +25,7 @@ document.getElementById('bd-theme').addEventListener('click',()=>{
 //-----------------------------------------------
 // Manage the modal popup
 //
+// show the modal
 const modal = new bootstrap.Modal(document.getElementById("modal"))
 htmx.on("htmx:afterSwap", (e) => {
   // Response targeting #dialog => show the modal
@@ -32,13 +33,12 @@ htmx.on("htmx:afterSwap", (e) => {
     modal.show()
   }
 })
+// hide the dialog box
 htmx.on("htmx:beforeSwap", (e) => {
-  // Empty response targeting #dialog => hide the modal
-  if (e.detail.target.id == "card_edit_popup" && !e.detail.xhr.response) {
+  // force dialog to release the focus, Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id == "cardeditpopupform" && !e.detail.xhr.response) {
+    document.getElementById("card_edit_popup").innerHTML = ""
     modal.hide()
     e.detail.shouldSwap = false
   }
-})
-htmx.on("hidden.bs.modal", () => {
-  document.getElementById("card_edit_popup").innerHTML = ""
 })
