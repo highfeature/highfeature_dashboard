@@ -16,7 +16,7 @@ whitenoise==6.9.0  # https://github.com/evansd/whitenoise
 # ------------------------------------------------------------------------------
 crispy-bootstrap5==2024.10  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django==5.1.7 #==5.0.11  # pyup: < 5.1  # https://www.djangoproject.com/
-django-crispy-forms==2.3  # https://github.com/django-crispy-forms/django-crispy-forms
+django-crispy-forms==2.4  # https://github.com/django-crispy-forms/django-crispy-forms
 django-celery-beat==2.7.0  # https://github.com/celery/django-celery-beat
 django-environ==0.12.0  # https://github.com/joke2k/django-environ
 django-model-utils==5.0.0  # https://github.com/jazzband/django-model-utils
