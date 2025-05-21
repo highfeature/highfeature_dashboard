@@ -8,7 +8,7 @@ Pillow==11.1.0  # https://github.com/python-pillow/Pillow
 ping3==4.0.8
 python-slugify==8.0.4  # https://github.com/un33k/python-slugify
 pyyaml==6.0.2
-redis==5.2.1  # https://github.com/redis/redis-py
+redis==6.1.0  # https://github.com/redis/redis-py
 uvicorn[standard]==0.34.0  # https://github.com/encode/uvicorn
 whitenoise==6.9.0  # https://github.com/evansd/whitenoise
 
